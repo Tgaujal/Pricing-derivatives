@@ -19,9 +19,9 @@ def Binomial_model(S, K, r, T, sigma, option_type, N):
     for i in range(N-1,-1,-1):
         for j in range(i+1):
             if option_type=='call':
-                option_tree[j,i]=max(0,S_tree[j,i]-K,np.exp(-r*dt)*(p*option_tree[j,i+1]+(1-p)*option_tree[j+1,i+1]))
+                option_tree[j,i]=max(0,np.exp(-r*dt)*(p*option_tree[j,i+1]+(1-p)*option_tree[j+1,i+1]))
             else:
-                option_tree[j,i]=max(0,K-S_tree[j,i],np.exp(-r*dt)*(p*option_tree[j,i+1]+(1-p)*option_tree[j+1,i+1]))
+                option_tree[j,i]=max(0,np.exp(-r*dt)*(p*option_tree[j,i+1]+(1-p)*option_tree[j+1,i+1]))
     return option_tree[0,0]
 S=100
 K=100
