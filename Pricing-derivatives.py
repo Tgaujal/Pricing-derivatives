@@ -27,8 +27,15 @@ K=100
 r=0.06
 sigma=0.6
 T=1
+<<<<<<< HEAD
 N=10000
 option_type='call'
 print(Eur_Binomial_model(S, K, r, T, sigma, option_type, N))
 C=S*norm.cdf((np.log(S/K)+(r+0.5*sigma**2)*T)/(sigma*np.sqrt(T)))-K*np.exp(-r*T)*norm.cdf((np.log(S/K)+(r-0.5*sigma**2)*T)/(sigma*np.sqrt(T)))
 print(C)
+=======
+N=100
+option_type='call'
+print(Binomial_model(S, K, r, T, sigma, option_type, N))
+
+>>>>>>> 04deeb72ff0609de86bdebba51a9e4b0f759221e
