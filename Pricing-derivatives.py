@@ -36,9 +36,7 @@ print(Eur_Binomial_model(S, K, r, T, sigma, option_type, N))
 #Comparison with the Black-Scholes formula
 C=S*norm.cdf((np.log(S/K)+(r+0.5*sigma**2)*T)/(sigma*np.sqrt(T)))-K*np.exp(-r*T)*norm.cdf((np.log(S/K)+(r-0.5*sigma**2)*T)/(sigma*np.sqrt(T)))
 print(C)
-=======
-N=100
-option_type='call'
+
 
 
 
