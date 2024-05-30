@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.stats import norm
 
-def AME_Binomial_model(S0, K, T, r, sigma, N):
+def AME_Binomial_model(S0, K, T, r, sigma, option_type, N):
     dt = T / N
     u = np.exp(sigma * np.sqrt(dt))
     d = 1 / u
@@ -17,15 +17,22 @@ def AME_Binomial_model(S0, K, T, r, sigma, N):
     # Initialize option values at maturity
     V = np.zeros((N + 1, N + 1))
     for j in range(N + 1):
-        V[j, N] = max(0, S[j, N] - K)
+        if option_type == 'call'
+            V[j, N] = max(0, S[j, N] - K)
+        else:
+            V[j,N] = max(0, K - S[j,N])
     
     # Backward induction to evaluate the option
     for i in range(N - 1, -1, -1):
         for j in range(i + 1):
-            continuation_value = (p * V[j + 1, i + 1] + (1 - p) * V[j, i + 1]) * np.exp(-r * dt)
-            exercise_value = max(S[j, i] - K, 0)
-            V[j, i] = max(continuation_value, exercise_value)
-    
+            if option_type == 'call'
+                continuation_value = (p * V[j + 1, i + 1] + (1 - p) * V[j, i + 1]) * np.exp(-r * dt)
+                exercise_value = max(S[j, i] - K, 0)
+                V[j, i] = max(continuation_value, exercise_value)
+            else :
+                continuation_value = (p * V[j + 1, i + 1] + (1 - p) * V[j, i + 1]) * np.exp(-r * dt)
+                exercise_value = max(K - S[j, i], 0)
+                V[j, i] = max(continuation_value, exercise_value)
     return V[0, 0]
 
 # Parameters for AAPL stock
@@ -34,12 +41,13 @@ T_aapl = 1
 r_aapl = 0.04
 sigma_aapl = 0.3
 N_aapl = 1000
+option_type = 'call'
 
 # Deep In-The-Money option parameters
 K_deep_in_the_money = 100
 
 # Calculation with the binomial model for deep in-the-money option
-binomial_value_deep_in = AME_Binomial_model(S0_aapl, K_deep_in_the_money, T_aapl, r_aapl, sigma_aapl, N_aapl)
+binomial_value_deep_in = AME_Binomial_model(S0_aapl, K_deep_in_the_money, T_aapl, r_aapl, sigma_aapl,option_type, N_aapl)
 
 # Comparison with the Black-Scholes model for deep in-the-money option
 d1_deep_in = (np.log(S0_aapl / K_deep_in_the_money) + (r_aapl + 0.5 * sigma_aapl ** 2) * T_aapl) / (sigma_aapl * np.sqrt(T_aapl))
